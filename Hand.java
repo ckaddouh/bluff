@@ -6,6 +6,10 @@ public class Hand {
     public Hand(ArrayList<Card> hand) {
         this.hand = hand;
     }
+    
+    public ArrayList<Card> getHand() {
+      return hand;
+    }
 
     private ArrayList<Card> merge(ArrayList<Card> listA, ArrayList<Card> listB) {
         ArrayList<Card> merged = new ArrayList<>();

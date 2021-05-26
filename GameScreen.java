@@ -32,11 +32,13 @@ public class GameScreen extends BorderPane {
     public static String file_name;
     private int numPlayers;
     private ArrayList<Card> deck = new ArrayList<>();
-    private ArrayList<ArrayList<Card>> hands = new ArrayList<ArrayList<Card>>();
+    private ArrayList<Hand> hands = new ArrayList<>();
     private String[] suits = {"H", "D", "S", "C"};
     private ArrayList<Card> pile = new ArrayList<>();
     private int playerTurn = 0;
     private int currentVal = 1;
+    private Button sortButton;
+    private BorderPane screen;
 
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
@@ -53,17 +55,17 @@ public class GameScreen extends BorderPane {
             for (int j = 0; j < 52/numPlayers; j++) {
                 temp.add(deck.remove((int)(Math.random()*deck.size())));
             }
-            hands.add(temp);
+            hands.add(new Hand(temp));
         }
         for (int i = 0; i < deck.size(); i++) {
-            hands.get(numPlayers-1).add(deck.remove(i));
+            hands.get(numPlayers-1).getHand().add(deck.remove(i));
         }
 
         Card startingAce = new Card(1, "S");
         for (int j = 0; j < hands.size(); j++) {
-            for (int i = 0; i < hands.get(j).size(); i++) {
-                if (hands.get(j).get(i).equals(startingAce)) {
-                    pile.add(hands.get(j).remove(i));
+            for (int i = 0; i < hands.get(j).getHand().size(); i++) {
+                if (hands.get(j).getHand().get(i).equals(startingAce)) {
+                    pile.add(hands.get(j).getHand().remove(i));
                     currentVal++;
                     playerTurn = (j+1) % numPlayers;
                 }
@@ -86,7 +88,7 @@ public class GameScreen extends BorderPane {
         // format thigns vertically
         GridPane.setValignment(label, VPos.CENTER);
 
-        BorderPane screen = new BorderPane();
+        screen = new BorderPane();
         setCenter(screen);
         FileInputStream imageStream = new FileInputStream("./cards/blue_back.png");
         ImageView p = new ImageView(new Image(imageStream));
@@ -94,15 +96,16 @@ public class GameScreen extends BorderPane {
         p.setFitHeight(100);
         screen.setCenter(p);
 
+
+
+        sortButton = new Button("Sort");
+        sortButton.setOnAction(e -> handleSortButton());
+        sortButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        sortButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        
         screen.setBottom(showHand());
 
 
-        // // Create an instructions button and format it
-        // Button changeScreenButton = new Button("Instructions");
-        // changeScreenButton.setOnAction(e -> handleButton());
-        // changeScreenButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        // changeScreenButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
-        
         // // Create a play button and format it
         // Button play = new Button("Start");
         // play.setOnAction(e -> handleButtonStart());
@@ -141,17 +144,19 @@ public class GameScreen extends BorderPane {
         hbox.setPrefWidth(900);
         hbox.setPrefHeight(130);
 
-        for (Card c : hands.get(0)) {
+        for (Card c : hands.get(0).getHand()) {
             hbox.getChildren().add(c.faceUp);
         }
+        hbox.getChildren().add(sortButton);
         setAlignment(hbox, Pos.CENTER);
 
         return hbox;
     }
 
+    public void handleSortButton() {
+        hands.get(0).mergeSort(hands.get(0).getHand());
+        screen.setBottom(showHand());
+    }
 
-    // public void handleButtonSettings() {
-    //     mainApp.showSettingsScreen();
-    // }
 
 }
