@@ -39,6 +39,8 @@ public class GameScreen extends BorderPane {
     private int currentVal = 1;
     private Button sortButton;
     private BorderPane screen;
+    private HBox hbox = new HBox();
+    private int numCardsAdded = 0;
 
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
@@ -96,14 +98,28 @@ public class GameScreen extends BorderPane {
         p.setFitHeight(100);
         screen.setCenter(p);
 
-
-
         sortButton = new Button("Sort");
         sortButton.setOnAction(e -> handleSortButton());
         sortButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         sortButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         
-        screen.setBottom(showHand());
+        hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setSpacing(10);
+        hbox.setStyle("-fx-background-color: #336699;");
+        hbox.setPrefWidth(900);
+        hbox.setPrefHeight(130);
+        setAlignment(hbox, Pos.CENTER);
+        hbox.setAlignment(Pos.CENTER);
+
+        showHand();
+        screen.setBottom(hbox);
+
+        
+        Button BSButton = new Button("BS");
+        BSButton.setOnAction(e -> handleBSButton());
+        BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        
 
 
         // // Create a play button and format it
@@ -136,26 +152,29 @@ public class GameScreen extends BorderPane {
     }
 
     
-    public HBox showHand() {
-        HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(10);
-        hbox.setStyle("-fx-background-color: #336699;");
-        hbox.setPrefWidth(900);
-        hbox.setPrefHeight(130);
+    public void showHand() {
+        hbox.getChildren().clear();
+
 
         for (Card c : hands.get(0).getHand()) {
             hbox.getChildren().add(c.faceUp);
         }
         hbox.getChildren().add(sortButton);
-        setAlignment(hbox, Pos.CENTER);
-
-        return hbox;
     }
 
     public void handleSortButton() {
-        hands.get(0).mergeSort(hands.get(0).getHand());
-        screen.setBottom(showHand());
+        hands.set(0, new Hand(hands.get(0).mergeSort(hands.get(0).getHand())));
+        showHand();
+        screen.setBottom(hbox);
+    }
+
+    public void handleBSButton() {
+        for (int i = 0; i < numCardsAdded; i++) {
+            if (pile.get(pile.size()-1-1).getValue() != currentVal)
+                hands.get(playerTurn--).getHand().addAll(pile);
+            else
+                hands.get(0).getHand().addAll(pile);
+        }
     }
 
 
