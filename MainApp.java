@@ -16,7 +16,8 @@ public class MainApp extends Application {
 
     // Define all of the screens as Pane variables
     Pane welcomeScreen;
-
+    Pane gameScreen;
+    Pane instructionScreen;
 
     public static Scene scene2;
 
@@ -36,7 +37,8 @@ public class MainApp extends Application {
 
         // // Define each of the Pane variables to a new screen passing it the mainApp
         welcomeScreen = new WelcomeScreen(this);
-        // instructionScreen = new InstructionScreen(this);
+        gameScreen = new GameScreen(this);
+        instructionScreen = new InstructionScreen(this);
         // drawingScreen = new DrawingScreen(this);
         // settingsScreen = new SettingsScreen(this);
         // resultsScreen = new ResultsScreen(this);
@@ -61,6 +63,20 @@ public class MainApp extends Application {
         Scene scene = primaryStage.getScene();
         // setStageSize(800, 500);
         scene.setRoot(welcomeScreen);
+
+    }
+
+    public void showGameScreen(){
+        Scene scene = primaryStage.getScene();
+        // setStageSize(800, 500);
+        scene.setRoot(gameScreen);
+
+    }
+
+    public void showInstructionScreen(){
+        Scene scene = primaryStage.getScene();
+        // setStageSize(800, 500);
+        scene.setRoot(instructionScreen);
 
     }
 
