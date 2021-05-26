@@ -9,14 +9,18 @@ public class Card implements Comparable<Card> {
     private String suit;
     private ImageView img;
     private boolean isFaceUp = true;
-    private ImageView faceUp;
-    private ImageView faceDown;
+    public ImageView faceUp;
+    public ImageView faceDown;
 
     public Card(int value, String suit) throws FileNotFoundException  {
         this.value = value;
         this.suit = suit;
         faceUp =  new ImageView(new Image(new FileInputStream("./cards/" + toString() + ".png")));
         faceDown = new ImageView(new Image(new FileInputStream("./cards/blue_back.png")));
+        faceUp.setFitWidth(75);
+        faceUp.setFitHeight(100);
+        faceDown.setFitWidth(75);
+        faceDown.setFitHeight(100);
         img = faceUp;
     }
 

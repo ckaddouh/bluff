@@ -51,7 +51,7 @@ public class MainApp extends Application {
         stage2.setResizable(false);
         
         // Set the primary screen to the WelcomeScreen and determine its properties
-        Scene scene = new Scene(welcomeScreen, 900, 500);
+        Scene scene = new Scene(welcomeScreen, 1200, 500);
         primaryStage.setTitle("CS BS!");
         primaryStage.setScene(scene);
         primaryStage.show();  

@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.layout.HBox;
 
 // Create a class that extends BorderPane
 public class GameScreen extends BorderPane {
@@ -89,9 +90,12 @@ public class GameScreen extends BorderPane {
         setCenter(screen);
         FileInputStream imageStream = new FileInputStream("./cards/blue_back.png");
         ImageView p = new ImageView(new Image(imageStream));
-        p.setFitWidth(130);
-        p.setFitHeight(130);
+        p.setFitWidth(100);
+        p.setFitHeight(100);
         screen.setCenter(p);
+
+        screen.setBottom(showHand());
+
 
         // // Create an instructions button and format it
         // Button changeScreenButton = new Button("Instructions");
@@ -128,8 +132,26 @@ public class GameScreen extends BorderPane {
 
     }
 
+    
+    public HBox showHand() {
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setSpacing(10);
+        hbox.setStyle("-fx-background-color: #336699;");
+        hbox.setPrefWidth(900);
+        hbox.setPrefHeight(130);
+
+        for (Card c : hands.get(0)) {
+            hbox.getChildren().add(c.faceUp);
+        }
+        setAlignment(hbox, Pos.CENTER);
+
+        return hbox;
+    }
+
 
     // public void handleButtonSettings() {
     //     mainApp.showSettingsScreen();
     // }
+
 }
