@@ -19,8 +19,6 @@ public class Card implements Comparable<Card> {
         faceDown = new ImageView(new Image(new FileInputStream("./cards/blue_back.png")));
         faceUp.setFitWidth(75);
         faceUp.setFitHeight(100);
-        faceDown.setFitWidth(75);
-        faceDown.setFitHeight(100);
         img = faceUp;
     }
 
@@ -55,6 +53,11 @@ public class Card implements Comparable<Card> {
 
         isFaceUp = !isFaceUp;
 
+    }
+
+    public void resize(int width, int height) {
+        faceUp.setFitWidth(width);
+        faceUp.setFitHeight(height);
     }
 
     @Override

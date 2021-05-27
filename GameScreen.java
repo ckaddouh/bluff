@@ -45,7 +45,7 @@ public class GameScreen extends BorderPane {
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
         this.mainApp = app;
-        numPlayers = 4;
+        numPlayers = 3;
 
         for (int i = 1; i <= 13; i++) {
             for (int s = 0; s < 4; s++) {
@@ -91,7 +91,7 @@ public class GameScreen extends BorderPane {
         GridPane.setValignment(label, VPos.CENTER);
 
         screen = new BorderPane();
-        setCenter(screen);
+        
         FileInputStream imageStream = new FileInputStream("./cards/blue_back.png");
         ImageView p = new ImageView(new Image(imageStream));
         p.setFitWidth(100);
@@ -106,7 +106,7 @@ public class GameScreen extends BorderPane {
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
         hbox.setStyle("-fx-background-color: #336699;");
-        hbox.setPrefWidth(900);
+        hbox.setPrefWidth(1200);
         hbox.setPrefHeight(130);
         setAlignment(hbox, Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
@@ -121,7 +121,10 @@ public class GameScreen extends BorderPane {
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         
 
-
+        HBox center = new HBox(20);
+        center.getChildren().addAll(screen, BSButton);
+        resizeHand();
+        setCenter(center);
         // // Create a play button and format it
         // Button play = new Button("Start");
         // play.setOnAction(e -> handleButtonStart());
@@ -174,6 +177,12 @@ public class GameScreen extends BorderPane {
                 hands.get(playerTurn--).getHand().addAll(pile);
             else
                 hands.get(0).getHand().addAll(pile);
+        }
+    }
+
+    public void resizeHand() {
+        for (Card c : hands.get(0).getHand()) {
+            c.resize(1150/(hands.get(0).getHand().size() + 2), 100);
         }
     }
 
