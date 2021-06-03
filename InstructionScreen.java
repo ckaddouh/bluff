@@ -26,8 +26,8 @@ public class InstructionScreen extends BorderPane {
 
         // Create a title and format it
         Text text = new Text();
-        text.setText("\nInstructions"); 
-        text.setFill(Color.DODGERBLUE);
+        text.setText("\nInstructions");
+        text.setFill(Color.web("ff0c94"));
         text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 35));
         // Place the title at the top center of the screen
         setTop(text);
@@ -36,16 +36,18 @@ public class InstructionScreen extends BorderPane {
         // Create 2 buttons: back and play
         Button changeScreenBack = new Button("Back");
         changeScreenBack.setOnAction(e -> handleButtonBack());
-        
+
         Button changeScreenPlay = new Button("Play");
         changeScreenPlay.setOnAction(e -> handleButtonPlay());
 
         // Set the styles of the buttons
         changeScreenBack.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        changeScreenBack.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        changeScreenBack.setStyle(
+                "-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
 
         changeScreenPlay.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        changeScreenPlay.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        changeScreenPlay.setStyle(
+                "-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
 
         // Make the bottom of the BorderPane a GridPane of the buttons
         GridPane bottom = new GridPane();
@@ -60,23 +62,25 @@ public class InstructionScreen extends BorderPane {
         setBottom(bottom);
 
         // Create text for the actual instructions in the center
-        Text inst = new Text("                                  Welcome to CS BS!\nThe game is simple: every player must put at least one card face down in \nthe center when it is their turn. You must put a card down that comes sequentially \nin order starting with an ace at the beginning of the game. \n If you do not have a card with the necessary number, you can bluff\n and put other cards. However, if someone catches your bluff, \n they can press the 'BS' button, and you will \nhave to take the entire pile into your hand. \n If someone incorrectly calls 'BS' on another player, they take the pile. The \n person to finish their cards first wins. To begin, press play!");
+        Text inst = new Text(
+                "                                  Welcome to CS BS!\nThe game is simple: every player must put at least one card face down in \nthe center when it is their turn. You must put a card down that comes sequentially \nin order starting with an ace at the beginning of the game. \n If you do not have a card with the necessary number, you can bluff\n and put other cards. However, if someone catches your bluff, \n they can press the 'BS' button, and you will \nhave to take the entire pile into your hand. \n If someone incorrectly calls 'BS' on another player, they take the pile. The \n person to finish their cards first wins. To begin, press play!");
         // Format the text
         inst.setFont(Font.font("verdana", FontPosture.REGULAR, 25));
+        inst.setFill(Color.web("#ff0c94"));
         setAlignment(inst, Pos.CENTER);
         setCenter(inst);
 
         // Set the background color of the screen
-        setBackground( new Background( new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
     }
 
     // Define methods to handle screen changes for each button
 
-    private void handleButtonBack(){
+    private void handleButtonBack() {
         mainApp.showWelcomeScreen();
     }
-    
+
     private void handleButtonPlay() {
         mainApp.showGameScreen();
     }
