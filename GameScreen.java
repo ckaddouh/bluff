@@ -13,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -41,11 +42,12 @@ public class GameScreen extends BorderPane {
     private BorderPane screen;
     private HBox hbox = new HBox();
     private int numCardsAdded = 0;
+    private ArrayList<Integer> removeIndexes;
 
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
         this.mainApp = app;
-        numPlayers = 3;
+        numPlayers = 4;
 
         for (int i = 1; i <= 13; i++) {
             for (int s = 0; s < 4; s++) {
@@ -73,6 +75,7 @@ public class GameScreen extends BorderPane {
                 }
             }
         }
+        System.out.println(pile.get(0).getSuit());
         
 
         // Create a welcome label and format it
@@ -94,6 +97,13 @@ public class GameScreen extends BorderPane {
         
         FileInputStream imageStream = new FileInputStream("./cards/blue_back.png");
         ImageView p = new ImageView(new Image(imageStream));
+        p.setPickOnBounds(true);
+        p.setOnMouseClicked((MouseEvent e) -> {
+            System.out.println("Turn over!"); // change functionality
+            playerTurn = (playerTurn + 1) % numPlayers;   
+            handlePileClicked();         
+        });
+
         p.setFitWidth(100);
         p.setFitHeight(100);
         screen.setCenter(p);
@@ -111,9 +121,6 @@ public class GameScreen extends BorderPane {
         setAlignment(hbox, Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
 
-        showHand();
-        screen.setBottom(hbox);
-
         
         Button BSButton = new Button("BS");
         BSButton.setOnAction(e -> handleBSButton());
@@ -121,36 +128,28 @@ public class GameScreen extends BorderPane {
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         
 
-        HBox center = new HBox(20);
-        center.getChildren().addAll(screen, BSButton);
-        resizeHand();
-        setCenter(center);
-        // // Create a play button and format it
-        // Button play = new Button("Start");
-        // play.setOnAction(e -> handleButtonStart());
-        // play.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        // play.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
 
-        // // Create a settings button and format it
-        // Button settingsBT = new Button("Settings");
-        // settingsBT.setOnAction(e -> handleButtonSettings());
-        // settingsBT.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        // settingsBT.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
-        
-        // // Put these buttons into a GridPane at the bottom of the screen and set its spacing
-        // GridPane bottom = new GridPane();
-        // bottom.addRow(0, changeScreenButton, play, settingsBT);
+        setCenter(screen);
+      
+        showHand();
+        hbox.getChildren().add(BSButton);
+        screen.setBottom(hbox);        
 
-        // bottom.setHgap(20);
-        // bottom.setVgap(10);
-        // bottom.setPadding(new Insets(10));
 
-        // // Align the GridPane and do more formatting
-        // setAlignment(bottom, Pos.CENTER);
-        // setBottom(bottom);
-        // bottom.setBackground( new Background( new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        removeIndexes = new ArrayList<>();
 
-        
+        //while (playerTurn == 0) {
+            for (int i = 0; i < hands.get(0).getHand().size(); i++) {
+                Card c = hands.get(0).getHand().get(i);
+                final int INDEX = i;
+                c.faceUp.setPickOnBounds(true);
+                c.faceUp.setOnMouseClicked((MouseEvent e) -> {
+                    System.out.println("before method");
+                    removeIndexes.add(INDEX);
+                });
+            }
+        //}
+
 
     }
 
@@ -162,7 +161,6 @@ public class GameScreen extends BorderPane {
         for (Card c : hands.get(0).getHand()) {
             hbox.getChildren().add(c.faceUp);
         }
-        hbox.getChildren().add(sortButton);
     }
 
     public void handleSortButton() {
@@ -173,7 +171,7 @@ public class GameScreen extends BorderPane {
 
     public void handleBSButton() {
         for (int i = 0; i < numCardsAdded; i++) {
-            if (pile.get(pile.size()-1-1).getValue() != currentVal)
+            if (pile.get(pile.size()-1).getValue() != currentVal)
                 hands.get(playerTurn--).getHand().addAll(pile);
             else
                 hands.get(0).getHand().addAll(pile);
@@ -184,6 +182,29 @@ public class GameScreen extends BorderPane {
         for (Card c : hands.get(0).getHand()) {
             c.resize(1150/(hands.get(0).getHand().size() + 2), 100);
         }
+    }
+
+    public void handleCardClick(int index) {
+        System.out.println("Clicked num 2!"); // change functionality
+        hands.get(0).getHand().remove(index--);
+        showHand();
+
+    }
+
+    public void handlePileClicked() {
+        for (int i = 0; i < removeIndexes.size(); i++) {
+            Card c = hands.get(0).getHand().get(removeIndexes.get(i));
+            pile.add(c);
+        }
+        
+        for (int i = 0; i < removeIndexes.size(); i++) {
+            Card c = hands.get(0).getHand().get(removeIndexes.get(i));
+            hands.get(0).getHand().remove(c);
+            showHand();
+        }
+        removeIndexes.clear();
+        
+
     }
 
 

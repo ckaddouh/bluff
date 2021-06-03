@@ -1,8 +1,11 @@
+import java.beans.EventHandler;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class Card implements Comparable<Card> {
     private int value;
