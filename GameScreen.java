@@ -42,7 +42,8 @@ public class GameScreen extends BorderPane {
     private BorderPane screen;
     private HBox hbox = new HBox();
     private int numCardsAdded = 0;
-    private ArrayList<Integer> removeIndexes;
+    private ArrayList<ArrayList<Integer>> removeIndexes;
+    public int winner = 0;
 
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
@@ -136,19 +137,19 @@ public class GameScreen extends BorderPane {
         screen.setBottom(hbox);        
 
 
-        removeIndexes = new ArrayList<>();
+        removeIndexes = new ArrayList<ArrayList<Integer>>();
 
-        //while (playerTurn == 0) {
-            for (int i = 0; i < hands.get(0).getHand().size(); i++) {
-                Card c = hands.get(0).getHand().get(i);
-                final int INDEX = i;
-                c.faceUp.setPickOnBounds(true);
-                c.faceUp.setOnMouseClicked((MouseEvent e) -> {
-                    System.out.println("before method");
-                    removeIndexes.add(INDEX);
-                });
-            }
-        //}
+
+        for (int i = 0; i < hands.get(playerTurn).getHand().size(); i++) {
+            Card c = hands.get(playerTurn).getHand().get(i);
+            final int INDEX = i;
+            c.faceUp.setPickOnBounds(true);
+            c.faceUp.setOnMouseClicked((MouseEvent e) -> {
+                System.out.println("before method");
+                removeIndexes.get(playerTurn).add(INDEX);
+            });
+        }
+    
 
 
     }
@@ -164,7 +165,7 @@ public class GameScreen extends BorderPane {
     }
 
     public void handleSortButton() {
-        hands.set(0, new Hand(hands.get(0).mergeSort(hands.get(0).getHand())));
+        hands.set(0, new Hand(hands.get(playerTurn).mergeSort(hands.get(playerTurn).getHand())));
         showHand();
         screen.setBottom(hbox);
     }
@@ -174,32 +175,32 @@ public class GameScreen extends BorderPane {
             if (pile.get(pile.size()-1).getValue() != currentVal)
                 hands.get(playerTurn--).getHand().addAll(pile);
             else
-                hands.get(0).getHand().addAll(pile);
+                hands.get(playerTurn).getHand().addAll(pile);
         }
     }
 
     public void resizeHand() {
-        for (Card c : hands.get(0).getHand()) {
-            c.resize(1150/(hands.get(0).getHand().size() + 2), 100);
+        for (Card c : hands.get(playerTurn).getHand()) {
+            c.resize(1150/(hands.get(playerTurn).getHand().size() + 2), 100);
         }
     }
 
     public void handleCardClick(int index) {
         System.out.println("Clicked num 2!"); // change functionality
-        hands.get(0).getHand().remove(index--);
+        hands.get(playerTurn).getHand().remove(index--);
         showHand();
 
     }
 
     public void handlePileClicked() {
         for (int i = 0; i < removeIndexes.size(); i++) {
-            Card c = hands.get(0).getHand().get(removeIndexes.get(i));
+            Card c = hands.get(playerTurn).getHand().get(removeIndexes.get(playerTurn).get(i));
             pile.add(c);
         }
         
         for (int i = 0; i < removeIndexes.size(); i++) {
-            Card c = hands.get(0).getHand().get(removeIndexes.get(i));
-            hands.get(0).getHand().remove(c);
+            Card c = hands.get(playerTurn).getHand().get(removeIndexes.get(playerTurn).get(i));
+            hands.get(playerTurn).getHand().remove(c);
             showHand();
         }
         removeIndexes.clear();
