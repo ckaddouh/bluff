@@ -43,7 +43,7 @@ public class GameScreen extends BorderPane {
     private HBox hbox = new HBox();
     private int numCardsAdded = 0;
     private ArrayList<ArrayList<Integer>> removeIndexes;
-    public int winner = 0;
+    public static int winner = 0;
 
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
