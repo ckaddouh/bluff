@@ -18,6 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 
 // Create a class that extends BorderPane
 public class WelcomeScreen extends BorderPane {
@@ -30,31 +33,44 @@ public class WelcomeScreen extends BorderPane {
         this.mainApp = app;
 
         // Create a welcome label and format it
+        Effect glow = new Glow(100.0);
         Label label = new Label();
         label.setText(" Welcome to CS BS! ");
-        label.setTextFill(Color.WHITE);
+        label.setEffect(glow);
+        label.setTextFill(Color.web("#ff0c94"));
         label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 48));
-        label.setStyle("text-decoration: underline overline; -fx-background-color: dodgerblue");
+        label.setFont(Font.loadFont("file:PlayfairDisplay-Bold.ttf", 70));
+        label.setStyle("text-decoration: underline overline; -fx-background-color: black");
 
         setCenter(label);
         setAlignment(label, Pos.CENTER);
 
         // Set the background of the screen
-        setBackground( new Background( new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground( new Background( new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         // format thigns vertically
         GridPane.setValignment(label, VPos.CENTER);
 
         // Create an instructions button and format it
         Button instructionButton = new Button("Instructions");
+        instructionButton.setTextFill(Color.web("#dcfc5c"));
         instructionButton.setOnAction(e -> handleInstructionButton());
-        instructionButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        instructionButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        DropShadow dropshadow = new DropShadow();
+        dropshadow.setColor(Color.web("#dcfc5c"));
+        instructionButton.setEffect(dropshadow);
+        instructionButton.setStyle("-fx-background-color: #000000; ");
+        //instructionButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        instructionButton.setStyle("-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
+        //instructionButton.setFont(Font.loadFont("CaviarDreams.ttf", 22));
         
         // Create a play button and format it
         Button play = new Button("Start");
+        play.setTextFill(Color.web("#ea9dff"));
         play.setOnAction(e -> handleButtonStart());
-        play.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        play.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        DropShadow drop = new DropShadow();
+        drop.setColor(Color.web("#ea9dff"));
+        play.setEffect(drop);
+        //play.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        play.setStyle("-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
 
         // // Create a settings button and format it
         // Button settingsBT = new Button("Settings");
@@ -73,7 +89,7 @@ public class WelcomeScreen extends BorderPane {
         // Align the GridPane and do more formatting
         setAlignment(bottom, Pos.CENTER);
         setBottom(bottom);
-        bottom.setBackground( new Background( new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        bottom.setBackground( new Background( new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
     }
 
