@@ -18,11 +18,11 @@ import javafx.scene.text.Text;
 // Create a class that extends Border Pane
 public class InstructionScreen extends BorderPane {
 
-    private MainApp mainApp;
+    private ClientApp clientApp;
 
-    public InstructionScreen(MainApp app) {
+    public InstructionScreen(ClientApp app) {
         super();
-        this.mainApp = app;
+        this.clientApp = app;
 
         // Create a title and format it
         Text text = new Text();
@@ -78,10 +78,10 @@ public class InstructionScreen extends BorderPane {
     // Define methods to handle screen changes for each button
 
     private void handleButtonBack() {
-        mainApp.showWelcomeScreen();
+        clientApp.showWelcomeScreen();
     }
 
     private void handleButtonPlay() {
-        mainApp.showGameScreen();
+        clientApp.showGameScreen();
     }
 }
