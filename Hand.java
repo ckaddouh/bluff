@@ -1,12 +1,18 @@
 import java.util.ArrayList;
 
 public class Hand {
-    private ArrayList<Card> hand;
+    private ArrayList<Card> hand = new ArrayList<Card>();
 
     public Hand(ArrayList<Card> hand) {
         this.hand = hand;
     }
     
+    public Hand(Hand handOther) {
+      for (int i = 0; i < handOther.getHand().size(); i++) {
+        hand.add(handOther.getHand().get(i));
+      }
+    }
+
     public ArrayList<Card> getHand() {
       return hand;
     }

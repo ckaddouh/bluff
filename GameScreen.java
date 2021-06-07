@@ -76,7 +76,6 @@ public class GameScreen extends BorderPane {
                 }
             }
         }
-        System.out.println(pile.get(0).getSuit());
         
 
         // Create a welcome label and format it
@@ -129,24 +128,26 @@ public class GameScreen extends BorderPane {
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         
 
-
         setCenter(screen);
       
         showHand();
         hbox.getChildren().add(BSButton);
         screen.setBottom(hbox);        
 
-
+ 
         removeIndexes = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < numPlayers; i++) {
+            removeIndexes.add(new ArrayList<Integer>());
+        }
 
-
-        for (int i = 0; i < hands.get(playerTurn).getHand().size(); i++) {
-            Card c = hands.get(playerTurn).getHand().get(i);
+        System.out.println(playerTurn);
+        for (int i = 0; i < hands.get(0).getHand().size(); i++) {
+            Card c = hands.get(0).getHand().get(i);
             final int INDEX = i;
             c.faceUp.setPickOnBounds(true);
             c.faceUp.setOnMouseClicked((MouseEvent e) -> {
                 System.out.println("before method");
-                removeIndexes.get(playerTurn).add(INDEX);
+                removeIndexes.get(0).add(INDEX);
             });
         }
     
@@ -185,24 +186,16 @@ public class GameScreen extends BorderPane {
         }
     }
 
-    public void handleCardClick(int index) {
-        System.out.println("Clicked num 2!"); // change functionality
-        hands.get(playerTurn).getHand().remove(index--);
-        showHand();
-
-    }
 
     public void handlePileClicked() {
-        for (int i = 0; i < removeIndexes.size(); i++) {
-            Card c = hands.get(playerTurn).getHand().get(removeIndexes.get(playerTurn).get(i));
-            pile.add(c);
-        }
+        Hand copy = new Hand(hands.get(0));
         
-        for (int i = 0; i < removeIndexes.size(); i++) {
-            Card c = hands.get(playerTurn).getHand().get(removeIndexes.get(playerTurn).get(i));
-            hands.get(playerTurn).getHand().remove(c);
-            showHand();
+        for (int i = 0; i < removeIndexes.get(0).size(); i++) {
+            Card c = copy.getHand().get(removeIndexes.get(0).get(i));
+            pile.add(c);
+            hands.get(0).getHand().remove(c);
         }
+        showHand();
         removeIndexes.clear();
         
 
