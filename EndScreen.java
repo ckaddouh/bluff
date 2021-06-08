@@ -4,6 +4,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -26,9 +28,11 @@ public class EndScreen extends BorderPane {
 
         // Create a title and format it
         Text text = new Text();
-        text.setText("\nInstructions"); 
-        text.setFill(Color.DODGERBLUE);
-        text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 35));
+        text.setText("\nGame Ended");
+        text.setFill(Color.web("ff0c94"));
+        text.setFont(Font.loadFont("file:PlayfairDisplay-Bold.ttf", 35));
+        Effect glow = new Glow(100.0);
+        text.setEffect(glow);
         // Place the title at the top center of the screen
         setTop(text);
         setAlignment(text, Pos.CENTER);
@@ -36,16 +40,18 @@ public class EndScreen extends BorderPane {
         // Create 2 buttons: back and play
         Button changeMenuScreenButton = new Button("Menu");
         changeMenuScreenButton.setOnAction(e -> handleButtonMenu());
-        
+
         Button replayGameButton = new Button("Replay");
         replayGameButton.setOnAction(e -> handleButtonReplay());
 
         // Set the styles of the buttons
         replayGameButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        replayGameButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #ff0c94, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        replayGameButton.setStyle(
+                "-fx-font: 22 fantasy; -fx-background-color: #ff0c94, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
 
         replayGameButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        replayGameButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #ff0c94, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        replayGameButton.setStyle(
+                "-fx-font: 22 fantasy; -fx-background-color: #ff0c94, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
 
         // Make the bottom of the BorderPane a GridPane of the buttons
         GridPane bottom = new GridPane();
@@ -67,16 +73,16 @@ public class EndScreen extends BorderPane {
         setCenter(winner);
 
         // Set the background color of the screen
-        setBackground( new Background( new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
     }
 
     // Define methods to handle screen changes for each button
 
-    private void handleButtonMenu(){
+    private void handleButtonMenu() {
         mainApp.showWelcomeScreen();
     }
-    
+
     private void handleButtonReplay() {
         mainApp.showGameScreen();
     }
