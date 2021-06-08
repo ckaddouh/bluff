@@ -1,23 +1,26 @@
+package videoAttempt;
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class Server extends NetworkConnection {
-    
+public class Client extends NetworkConnection {
+
+    private String ip;
     private int port;
 
-    public Server(int port, Consumer<Serializable> onReceiveCallback) {
+    public Client(String ip, int port, Consumer<Serializable> onReceiveCallback) {
         super(onReceiveCallback);
+        this.ip = ip;
         this.port = port;
     }
 
     @Override
     protected boolean isServer() {
-        return true;
+        return false;
     }
 
     @Override
     protected String getIP() {
-        return null;
+        return ip;
     }
 
     @Override

@@ -44,7 +44,8 @@ public class GameScreen extends BorderPane {
     private int numCardsAdded = 0;
     private ArrayList<ArrayList<Integer>> removeIndexes;
     public static int winner = 0;
-
+    public Button BSButton;
+    
     public GameScreen(MainApp app) throws FileNotFoundException {
         super();
         this.mainApp = app;
@@ -122,7 +123,7 @@ public class GameScreen extends BorderPane {
         hbox.setAlignment(Pos.CENTER);
 
         
-        Button BSButton = new Button("BS");
+        BSButton = new Button("BS");
         BSButton.setOnAction(e -> handleBSButton());
         BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
@@ -151,11 +152,8 @@ public class GameScreen extends BorderPane {
             });
         }
     
-
-
     }
 
-    
     public void showHand() {
         hbox.getChildren().clear();
 

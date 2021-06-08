@@ -1,8 +1,11 @@
+package videoAttempt;
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import Card;
+import Hand;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -31,7 +34,7 @@ public class GameScreenClient extends BorderPane {
 
     private ClientApp clientApp;
     public static String file_name;
-    private int numPlayers;
+    public static int numPlayers;
     private ArrayList<Card> deck = new ArrayList<>();
     private ArrayList<Hand> hands = new ArrayList<>();
     private String[] suits = {"H", "D", "S", "C"};
@@ -44,6 +47,7 @@ public class GameScreenClient extends BorderPane {
     private int numCardsAdded = 0;
     private ArrayList<ArrayList<Integer>> removeIndexes;
     public static int winner = 0;
+    public static Button BSButton;
 
     public GameScreenClient(ClientApp app) throws FileNotFoundException {
         super();
@@ -122,8 +126,8 @@ public class GameScreenClient extends BorderPane {
         hbox.setAlignment(Pos.CENTER);
 
         
-        Button BSButton = new Button("BS");
-        BSButton.setOnAction(e -> handleBSButton());
+        BSButton = new Button("BS");
+        BSButton.setOnAction(e -> ClientApp.handleBSButton());
         BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         

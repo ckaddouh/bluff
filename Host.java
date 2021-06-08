@@ -3,7 +3,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ChatClient {
+public class Host extends Player {
     private Socket socket;
     private ObjectOutputStream socketOut;
     private ObjectInputStream socketIn;
@@ -33,19 +33,16 @@ public class ChatClient {
         String line = in.nextLine().trim();
         while (!line.toLowerCase().startsWith("/quit")) {
             
-            if (line.toLowerCase().startsWith("/list")) {
-                sendMessage(new MessageCtoS_ListRequest());
-            }
-            else if (line.toLowerCase().startsWith("/dm_")) {
-                int idNum = Integer.parseInt(line.substring(4, 5));
-                String message = line.substring(7);
-                sendMessage(new MessageCtoS_Private(message, idNum));
-            }
-            else {
-                sendMessage(new MessageCtoS_Chat(line));
-            }
+        // if (line.toLowerCase().startsWith("/dm_")) {
+        //     int idNum = Integer.parseInt(line.substring(4, 5));
+        //     String message = line.substring(7);
+        //     sendMessage(new MessageCtoS_Private(message, idNum));
+        // }
+           
+            sendMessage(new MessageCtoS_Chat(line));
+            
             line = in.nextLine().trim();
-        }
+        
         sendMessage(new MessageCtoS_Quit());
 
     }

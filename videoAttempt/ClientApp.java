@@ -1,3 +1,6 @@
+import InstructionScreen;
+import WelcomeScreen;
+package videoAttempt;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -24,7 +27,7 @@ public class ClientApp extends Application {
     private Parent createContent() {
         messages.setPrefHeight(550);
         TextField input = new TextField();
-        input.setOnAction(event -> {
+        GameScreenClient.BSButton.setOnAction(event -> {
             String message = isServer ? "Server: " : "Client: ";
             message += "said something"; // input.getText();
             input.clear();
@@ -40,6 +43,18 @@ public class ClientApp extends Application {
 
         
         return gameScreen;
+    }
+
+    public static void handleBSButton() {
+        String message = "testing2";
+
+        try {
+            for (NetworkConnection connection : NetworkConnection.clientList) {
+                connection.send(message);
+            }
+        } catch (Exception e) {
+            messages.appendText("Failed to send\n");
+        }
     }
 
     public void init() throws Exception {
@@ -118,3 +133,5 @@ public class ClientApp extends Application {
     }
 
 }
+
+// https://www.youtube.com/watch?v=HQoWN28H80w 

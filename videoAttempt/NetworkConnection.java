@@ -1,26 +1,38 @@
+package videoAttempt;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public abstract class NetworkConnection {
     private Consumer<Serializable> onReceiveCallback;
-    private ConnectionThread connThread = new ConnectionThread();
+    public static ArrayList<ConnectionThread> clientList = new ArrayList<>();
     
     public NetworkConnection(Consumer<Serializable> onReceiveCallback) {
         this.onReceiveCallback = onReceiveCallback;
-        connThread.setDaemon(true);
+        for (int i = 0; i < GameScreenClient.numPlayers; i++) {
+            ConnectionThread connThread = new ConnectionThread();
+            connThread.setDaemon(true);
+            clientList.add(connThread);
+        }
     }
 
     public void startConnection() throws Exception {
-        connThread.start();
+        for (ConnectionThread connThread : clientList) {
+            connThread.start();
+        }
     }
 
     public void send(Serializable data) throws Exception {
-        connThread.out.writeObject(data);
+        for (ConnectionThread connThread : clientList) {
+            connThread.out.writeObject(data);
+        }
     }
 
     public void closeConnection() throws Exception {
-        connThread.socket.close();
+        for (ConnectionThread connThread : clientList) {
+            connThread.socket.close();
+        }
     }
 
     protected abstract boolean isServer();
