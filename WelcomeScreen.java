@@ -26,12 +26,12 @@ import javafx.scene.effect.Glow;
 // Create a class that extends BorderPane
 public class WelcomeScreen extends BorderPane {
 
-    private ClientApp clientApp;
+    private MainApp mainApp;
     public static String file_name;
 
-    public WelcomeScreen(ClientApp app) {
+    public WelcomeScreen(MainApp app) {
         super();
-        this.clientApp = app;
+        this.mainApp = app;
 
         // Create a welcome label and format it
         Effect glow = new Glow(100.0);
@@ -96,11 +96,11 @@ public class WelcomeScreen extends BorderPane {
 
     // Define methods to handle each button
     private void handleInstructionButton(){
-        clientApp.showInstructionScreen();
+        mainApp.showInstructionScreen();
     }
     
     public void handleButtonStart(){
-        clientApp.showGameScreen();
+        mainApp.showGameScreen();
     }
 
     // public void handleButtonSettings() {

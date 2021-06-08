@@ -19,11 +19,11 @@ import videoAttempt.ClientApp;
 // Create a class that extends Border Pane
 public class InstructionScreen extends BorderPane {
 
-    private ClientApp clientApp;
+    private MainApp mainApp;
 
-    public InstructionScreen(ClientApp app) {
+    public InstructionScreen(MainApp app) {
         super();
-        this.clientApp = app;
+        this.mainApp = app;
 
         // Create a title and format it
         Text text = new Text();
@@ -79,10 +79,10 @@ public class InstructionScreen extends BorderPane {
     // Define methods to handle screen changes for each button
 
     private void handleButtonBack() {
-        clientApp.showWelcomeScreen();
+        mainApp.showWelcomeScreen();
     }
 
     private void handleButtonPlay() {
-        clientApp.showGameScreen();
+        mainApp.showGameScreen();
     }
 }
