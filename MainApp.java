@@ -16,6 +16,7 @@ public class MainApp extends Application {
 
     // Define all of the screens as Pane variables
     Pane welcomeScreen;
+    Pane waitScreen;
     Pane gameScreen;
     Pane instructionScreen;
 
@@ -37,6 +38,7 @@ public class MainApp extends Application {
 
         // // Define each of the Pane variables to a new screen passing it the mainApp
         welcomeScreen = new WelcomeScreen(this);
+        waitScreen = new WaitScreen(this);
         gameScreen = new GameScreen(this);
         instructionScreen = new InstructionScreen(this);
         // drawingScreen = new DrawingScreen(this);
@@ -45,35 +47,40 @@ public class MainApp extends Application {
         // finalScreen = new FinalScreen(this);
         // wordScreen = new WordScreen(this);
         // reminder = new Reminder(this);
- 
+
         // Make sure the users cannot resize the windows
         primaryStage.setResizable(false);
         stage2.setResizable(false);
-        
+
         // Set the primary screen to the WelcomeScreen and determine its properties
         Scene scene = new Scene(welcomeScreen, 1200, 500);
         primaryStage.setTitle("CS BS!");
         primaryStage.setScene(scene);
-        primaryStage.show();  
+        primaryStage.show();
 
     }
 
     // Define a method that sets the root of the scene to welcomeScreen
-    public void showWelcomeScreen(){
+    public void showWelcomeScreen() {
         Scene scene = primaryStage.getScene();
         // setStageSize(800, 500);
         scene.setRoot(welcomeScreen);
 
     }
 
-    public void showGameScreen(){
+    public void showWaitScreen() {
+        Scene scene = primaryStage.getScene();
+        scene.setRoot(waitScreen);
+    }
+
+    public void showGameScreen() {
         Scene scene = primaryStage.getScene();
         // setStageSize(800, 500);
         scene.setRoot(gameScreen);
 
     }
 
-    public void showInstructionScreen(){
+    public void showInstructionScreen() {
         Scene scene = primaryStage.getScene();
         // setStageSize(800, 500);
         scene.setRoot(instructionScreen);
@@ -81,13 +88,13 @@ public class MainApp extends Application {
     }
 
     // Define a function to set the stage size
-    public static void setStageSize(double width, double height){
+    public static void setStageSize(double width, double height) {
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
     }
 
     // Define a method that actually runs the program
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 }
