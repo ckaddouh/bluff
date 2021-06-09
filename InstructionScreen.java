@@ -4,6 +4,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.Background;
@@ -11,6 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -26,6 +28,15 @@ public class InstructionScreen extends BorderPane {
     public InstructionScreen(MainApp app) {
         super();
         this.mainApp = app;
+
+        // TRY
+        // final HBox hbox = new HBox();
+        // hbox.setPrefWidth(1200);
+        // hbox.setPrefHeight(130);
+        // setAlignment(hbox, Pos.CENTER);
+        // hbox.setAlignment(Pos.CENTER);
+        // BorderPane pane = new BorderPane();
+
 
         // Create a title and format it
         Text text = new Text();
@@ -51,15 +62,27 @@ public class InstructionScreen extends BorderPane {
         changeScreenPlay.setOnAction(e -> handleButtonPlay());
 
         // Set the styles of the buttons
-        changeScreenBack.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        //changeScreenBack.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         //changeScreenBack.setStyle(
                 //"-fx-font: 22 fantasy; -fx-background-color: #b30768, linear-gradient(#9c2f6c 0%, #291f29 20%, #221921 100%), linear-gradient(#e000c6, #c732c2), radial-gradient(center 50% 0%, radius 100%, #fc6af0, #ff00d4)");
+        changeScreenBack.setTextFill(Color.web("#ea9dff"));
+        DropShadow dropshadow = new DropShadow();
+        dropshadow.setColor(Color.web("#ea9dff"));
+        changeScreenBack.setEffect(dropshadow);
+        changeScreenBack.setStyle("-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
 
-        changeScreenPlay.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+
+        //changeScreenPlay.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         //changeScreenPlay.setStyle(
                 //"-fx-font: 22 fantasy; -fx-background-color: #b30768, linear-gradient(#9c2f6c 0%, #291f29 20%, #221921 100%), linear-gradient(#e000c6, #c732c2), radial-gradient(center 50% 0%, radius 100%, #fc6af0, #ff00d4)");
-
-        changeScreenPlay.setAlignment(Pos.BOTTOM_RIGHT);
+        changeScreenPlay.setTextFill(Color.web("#dcfc5c"));
+        DropShadow drop = new DropShadow();
+        drop.setColor(Color.web("#dcfc5c"));
+        changeScreenPlay.setEffect(drop);
+        changeScreenPlay.setStyle("-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
+        changeScreenPlay.setAlignment(Pos.CENTER_RIGHT);
+        
+        //changeScreenPlay.setAlignment(Pos.BOTTOM_RIGHT);
 
         // Make the bottom of the BorderPane a GridPane of the buttons
         GridPane bottom = new GridPane();
@@ -86,6 +109,11 @@ public class InstructionScreen extends BorderPane {
         // Set the background color of the screen
         setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
+        //TRY
+        // hbox.setStyle("-fx-background-color: black;");
+        // hbox.getChildren().add(changeScreenBack);
+        // hbox.getChildren().add(changeScreenPlay);
+        // pane.setBottom(hbox);
     }
 
     // Define methods to handle screen changes for each button

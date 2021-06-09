@@ -36,7 +36,7 @@ public class WaitScreen extends BorderPane {
         // Create a welcome label and format it
         Effect glow = new Glow(100.0);
         Label label = new Label();
-        label.setText(" Waitng while others join... ");
+        label.setText(" Waiting for others to join... ");
         label.setEffect(glow);
         label.setTextFill(Color.web("#ff0c94"));
         label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 48));
