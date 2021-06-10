@@ -1,6 +1,8 @@
 
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -22,6 +24,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 // Create a class that extends BorderPane
 public class WelcomeScreen extends BorderPane {
@@ -100,6 +104,24 @@ public class WelcomeScreen extends BorderPane {
         setAlignment(bottom, Pos.CENTER);
         setBottom(bottom);
         bottom.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        // try {
+        //     Image image = new Image(new FileInputStream("all_players_line.jpg"));
+        //     ImageView imageView = new ImageView(image); 
+        //     imageView.setX(400); 
+        //     imageView.setY(10); 
+
+        //     imageView.setFitHeight(200); 
+        //     imageView.setFitWidth(40); 
+
+        //     imageView.setPreserveRatio(true); 
+        // } catch (FileNotFoundException e1) {
+        //     // TODO Auto-generated catch block
+        //     e1.printStackTrace();
+        // } 
+
+
+
 
     }
 
