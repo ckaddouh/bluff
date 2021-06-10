@@ -95,7 +95,7 @@ public class WelcomeScreen extends BorderPane {
         // spacing
         GridPane bottom = new GridPane();
         bottom.addRow(0, play);
-        bottom.addColumn(100, instructionButton);
+        bottom.addColumn(48, instructionButton);
 
         bottom.setHgap(20);
         bottom.setVgap(10);
