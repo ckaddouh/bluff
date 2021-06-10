@@ -19,6 +19,7 @@ public class MainApp extends Application {
     Pane waitScreen;
     Pane gameScreen;
     Pane instructionScreen;
+    Pane endScreen;
 
     public static Scene scene2;
 
@@ -41,6 +42,7 @@ public class MainApp extends Application {
         waitScreen = new WaitScreen(this);
         gameScreen = new GameScreen(this);
         instructionScreen = new InstructionScreen(this);
+        endScreen = new EndScreen(this);
         // drawingScreen = new DrawingScreen(this);
         // settingsScreen = new SettingsScreen(this);
         // resultsScreen = new ResultsScreen(this);
@@ -85,6 +87,11 @@ public class MainApp extends Application {
         // setStageSize(800, 500);
         scene.setRoot(instructionScreen);
 
+    }
+
+    public void showEndScreen(){
+        Scene scene = primaryStage.getScene();
+        scene.setRoot(endScreen);
     }
 
     // Define a function to set the stage size
