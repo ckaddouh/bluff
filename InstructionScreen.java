@@ -86,7 +86,8 @@ public class InstructionScreen extends BorderPane {
 
         // Make the bottom of the BorderPane a GridPane of the buttons
         GridPane bottom = new GridPane();
-        bottom.addRow(0, changeScreenBack, changeScreenPlay);
+        bottom.addRow(0, changeScreenBack);
+        bottom.addRow(100, changeScreenPlay);
 
         // Set the sapcing and position of the GridPane
         bottom.setHgap(10);

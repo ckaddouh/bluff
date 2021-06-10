@@ -94,7 +94,8 @@ public class WelcomeScreen extends BorderPane {
         // Put these buttons into a GridPane at the bottom of the screen and set its
         // spacing
         GridPane bottom = new GridPane();
-        bottom.addRow(0, play, instructionButton);
+        bottom.addRow(0, play);
+        bottom.addColumn(100, instructionButton);
 
         bottom.setHgap(20);
         bottom.setVgap(10);
