@@ -61,7 +61,8 @@ public class EndScreen extends BorderPane {
 
         // Make the bottom of the BorderPane a GridPane of the buttons
         GridPane bottom = new GridPane();
-        bottom.addRow(0, changeMenuScreenButton, replayGameButton);
+        bottom.addRow(0, changeMenuScreenButton);
+        bottom.addColumn(100, replayGameButton);
 
         // Set the sapcing and position of the GridPane
         bottom.setHgap(10);
