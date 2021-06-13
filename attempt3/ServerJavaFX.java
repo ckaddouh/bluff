@@ -36,19 +36,11 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-/**
- * 
- * @author topman garbuja,
- * 
- *         This class is server, run this only once.
- * 
- *         It also uses TaskClientConnection.java file to use in a thread which
- *         represents each new connection
- * 
- */
+
 public class ServerJavaFX extends Application {
     public TextArea txtAreaDisplay;
-    List<TaskClientConnection> connectionList = new ArrayList<TaskClientConnection>();
+    public List<TaskClientConnection> connectionList = new ArrayList<TaskClientConnection>();
+    public static List<Application> clientList = new ArrayList<>();
     public static String file_name;
     public static int numPlayers;
     private ArrayList<Card> deck = new ArrayList<>();

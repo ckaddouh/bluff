@@ -109,6 +109,8 @@ public class ClientJavaFX extends Application {
             // Create an output stream to send data to the server
             output = new DataOutputStream(socket.getOutputStream());
 
+            ServerJavaFX.clientList.add(this);
+            WaitScreen.players.setText( waitScreen.players.getText() + "new player");
             //create a thread in order to read message from server continuously
             TaskReadThread task = new TaskReadThread(socket, this);
             Thread thread = new Thread(task);

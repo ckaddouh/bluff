@@ -32,6 +32,8 @@ public class WaitScreen extends BorderPane {
     private Application mainApp;
     public static String file_name;
 
+    public static Label players;
+
     public WaitScreen(Application app) {
         super();
         this.mainApp = app;
@@ -66,18 +68,13 @@ public class WaitScreen extends BorderPane {
         play.setStyle(
                 "-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
 
-        // // Create a settings button and format it
-        // Button settingsBT = new Button("Settings");
-        // settingsBT.setOnAction(e -> handleButtonSettings());
-        // settingsBT.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7),
-        // 5, 0.0, 0, 1)");
-        // settingsBT.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab,
-        // linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%),
-        // linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius
-        // 100%, #64a5f5, #9ddbfa)");
-
         // Put these buttons into a GridPane at the bottom of the screen and set its
         // spacing
+
+        players = new Label();
+        setRight(players);
+
+        
         GridPane bottom = new GridPane();
         bottom.addRow(0, play);
 
@@ -100,6 +97,7 @@ public class WaitScreen extends BorderPane {
         else 
             ((ClientJavaFX)mainApp).showGameScreen();
     }
+ 
 
     // public void handleButtonSettings() {
     // mainApp.showSettingsScreen();

@@ -25,7 +25,7 @@ import javafx.scene.text.TextAlignment;
 // Create a class that extends Border Pane
 public class InstructionScreenClient extends BorderPane {
 
-    private Application mainApp;
+    protected Application mainApp;
 
     public InstructionScreenClient(Application app) {
         super();

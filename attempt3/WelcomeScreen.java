@@ -33,7 +33,6 @@ import javafx.scene.image.ImageView;
 // Create a class that extends BorderPane
 public class WelcomeScreen extends WelcomeScreenClient {
 
-    private Application mainApp;
     public static String file_name;
 
     public WelcomeScreen(Application app) {
@@ -130,17 +129,16 @@ public class WelcomeScreen extends WelcomeScreenClient {
 
     // Define methods to handle each button
     private void handleInstructionButton() {
-        if (mainApp instanceof ServerJavaFX)
-            ((ServerJavaFX)mainApp).showInstructionScreen();
-        else
-            ((ClientJavaFX)mainApp).showInstructionScreen();
+        ((ServerJavaFX)mainApp).showInstructionScreen();
+
     }
 
     public void handleButtonStart() {
-        if (mainApp instanceof ServerJavaFX) {
-            ((ServerJavaFX)mainApp).showWaitScreen();
-            ((ClientJavaFX)mainApp).showWaitScreen();
+        ((ServerJavaFX)mainApp).showWaitScreen();
+        for (Application tcc : ServerJavaFX.clientList) {
+            ((ClientJavaFX)tcc).showWaitScreen();
         }
+        
     }
 
 }
