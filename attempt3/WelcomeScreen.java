@@ -3,6 +3,8 @@ package attempt3;
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.FileInputStream;
 
 import javafx.application.Application;
@@ -34,7 +36,8 @@ import javafx.scene.image.ImageView;
 public class WelcomeScreen extends WelcomeScreenClient {
 
     public static String file_name;
-
+    //public static List<Application> clientList = new ArrayList<>();
+    
     public WelcomeScreen(Application app) {
         super(app);
 
@@ -135,10 +138,11 @@ public class WelcomeScreen extends WelcomeScreenClient {
 
     public void handleButtonStart() {
         ((ServerJavaFX)mainApp).showWaitScreen();
-        for (Application tcc : ServerJavaFX.clientList) {
-            ((ClientJavaFX)tcc).showWaitScreen();
+        System.out.println("length: " + ServerJavaFX.connectionList.size());
+        for (Application c : ServerJavaFX.connectionList) {
+            System.out.println("in for loop");
+            ((ClientJavaFX)c).showWaitScreen();
         }
-        
     }
 
 }

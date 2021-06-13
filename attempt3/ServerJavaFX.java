@@ -39,8 +39,8 @@ import javafx.stage.Stage;
 
 public class ServerJavaFX extends Application {
     public TextArea txtAreaDisplay;
-    public List<TaskClientConnection> connectionList = new ArrayList<TaskClientConnection>();
-    public static List<Application> clientList = new ArrayList<>();
+    public static List<TaskClientConnection> connectionList = new ArrayList<TaskClientConnection>();
+    //public static List<Application> clientList = new ArrayList<>();
     public static String file_name;
     public static int numPlayers;
     private ArrayList<Card> deck = new ArrayList<>();
@@ -74,7 +74,7 @@ public class ServerJavaFX extends Application {
         endScreen = new EndScreen(this);
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(welcomeScreen, 1200, 500);
+        Scene scene = new Scene(gameScreen, 1200, 500);
         stage.setTitle("CS BS!"); // Set the stage title
         stage.setScene(scene); // Place the scene in the stage
         stage.show(); // Display the stage
@@ -102,7 +102,7 @@ public class ServerJavaFX extends Application {
                 }
 
             } catch (IOException ex) {
-                txtAreaDisplay.appendText(ex.toString() + '\n');
+                //txtAreaDisplay.appendText(ex.toString() + '\n');
             }
         }).start();
 
@@ -143,9 +143,9 @@ public class ServerJavaFX extends Application {
 
     // send message to all connected clients
     public void broadcast(String message) {
-        for (TaskClientConnection clientConnection : this.connectionList) {
-            clientConnection.sendMessage(message);
-        }
+        // for (TaskClientConnection clientConnection : this.connectionList) {
+        //     clientConnection.(message);
+        // }
     }
 
 }

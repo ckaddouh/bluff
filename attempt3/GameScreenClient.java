@@ -30,16 +30,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.layout.HBox;
 
 // Create a class that extends BorderPane
-public class GameScreen extends BorderPane {
+public class GameScreenClient extends GameScreen {
 
-    private Application clientApp;
     public static String file_name;
-    protected ArrayList<Card> deck = new ArrayList<>();
-    protected ArrayList<Hand> hands = new ArrayList<>();
-    protected String[] suits = {"H", "D", "S", "C"};
-    protected ArrayList<Card> pile = new ArrayList<>();
-    protected int playerTurn = 0;
-    protected int currentVal = 1;
+    private String[] suits = {"H", "D", "S", "C"};
     private Button sortButton;
     private BorderPane screen;
     private HBox hbox = new HBox();
@@ -47,45 +41,15 @@ public class GameScreen extends BorderPane {
     private ArrayList<ArrayList<Integer>> removeIndexes;
     public static int winner = 0;
     public static Button BSButton;
-    protected int numPlayers;
-    private int playerNum = 0;
+    private int playerNum = ServerJavaFX.connectionList.size();
 
-    public GameScreen(Application app) throws FileNotFoundException {
-        super();
-        this.clientApp = app;
-        numPlayers = 4;
-
-        for (int i = 1; i <= 13; i++) {
-            for (int s = 0; s < 4; s++) {
-                deck.add(new Card(i, suits[s]));
-            }
-        }
-        for (int i = 0; i < numPlayers; i++) {
-            ArrayList<Card> temp = new ArrayList<Card>();
-            for (int j = 0; j < 52/numPlayers; j++) {
-                temp.add(deck.remove((int)(Math.random()*deck.size())));
-            }
-            hands.add(new Hand(temp));
-        }
-        for (int i = 0; i < deck.size(); i++) {
-            hands.get(numPlayers-1).getHand().add(deck.remove(i));
-        }
-
-        Card startingAce = new Card(1, "S");
-        for (int j = 0; j < hands.size(); j++) {
-            for (int i = 0; i < hands.get(j).getHand().size(); i++) {
-                if (hands.get(j).getHand().get(i).equals(startingAce)) {
-                    pile.add(hands.get(j).getHand().remove(i));
-                    currentVal++;
-                    playerTurn = (j+1) % numPlayers;
-                }
-            }
-        }
+    public GameScreenClient(Application app) throws FileNotFoundException {
+        super(app);
         
 
         // Create a welcome label and format it
         Label label = new Label();
-        label.setText(" Game screen ");
+        label.setText(" Game screen Client ");
         label.setTextFill(Color.WHITE);
         label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 48));
         label.setStyle("text-decoration: underline overline; -fx-background-color: dodgerblue");
@@ -128,7 +92,7 @@ public class GameScreen extends BorderPane {
 
         
         BSButton = new Button("BS");
-        //BSButton.setOnAction(e -> ClientApp.handleBSButton());
+        BSButton.setOnAction(e -> handleBSButton());
         BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         

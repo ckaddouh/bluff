@@ -7,15 +7,21 @@ package attempt3;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+
+import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  *
  * @author topman garbuja,It represents each new connection
  */
-public  class TaskClientConnection implements Runnable {
+public  class TaskClientConnection extends Application implements Runnable {
+
 
     Socket socket;
     ServerJavaFX server;
@@ -23,10 +29,28 @@ public  class TaskClientConnection implements Runnable {
     DataInputStream input;
     DataOutputStream output;
 
-    public TaskClientConnection(Socket socket, ServerJavaFX server) {
+    private Stage stage;
+    private WelcomeScreenClient welcomeScreen;
+    private InstructionScreenClient instructionScreen;
+    private WaitScreenClient waitScreen;
+    private GameScreen gameScreen;
+    private EndScreen endScreen;
+    private ClientJavaFX client;
+
+
+    public TaskClientConnection(Socket socket, ServerJavaFX server) throws FileNotFoundException {
         this.socket = socket;
         this.server = server;
+
+        this.stage = stage;
+        welcomeScreen = new WelcomeScreenClient(this);
+        instructionScreen = new InstructionScreenClient(this);
+        waitScreen = new WaitScreenClient(this);
+        gameScreen = new GameScreen(this);
+        endScreen = new EndScreen(this);
+
     }
+
 
     @Override
     public void run() {
@@ -44,10 +68,11 @@ public  class TaskClientConnection implements Runnable {
 
                 //send message via server broadcast
                 server.broadcast(message);
+            
                 
                 //append message of the Text Area of UI (GUI Thread)
                 Platform.runLater(() -> {                    
-                    server.txtAreaDisplay.appendText(message + "\n");
+                    //server.txtAreaDisplay.appendText(message + "\n");
                 });
             }
             
@@ -76,6 +101,13 @@ public  class TaskClientConnection implements Runnable {
             ex.printStackTrace();
         } 
        
+    }
+
+
+    @Override
+    public void start(Stage arg0) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 
 }

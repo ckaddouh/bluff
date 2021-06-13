@@ -65,7 +65,7 @@ public class ClientJavaFX extends Application {
         gameScreen = new GameScreen(this);
         endScreen = new EndScreen(this);
         //pane to hold scroll pane and HBox
-        // VBox vBox = new VBox();
+        //  VBox vBox = new VBox();
 
         // scrollPane = new ScrollPane();   //pane to display text messages
         // HBox hBox = new HBox(); //pane to hold input textfield and send button
@@ -90,11 +90,11 @@ public class ClientJavaFX extends Application {
         // hBox.setHgrow(txtInput, Priority.ALWAYS);  //set textfield to grow as window size grows
 
         // //set center and bottom of the borderPane with scrollPane and hBox
-        // vBox.getChildren().addAll(scrollPane, hBox);
-        // vBox.setVgrow(scrollPane, Priority.ALWAYS);
+        //  vBox.getChildren().addAll(scrollPane);
+        //  vBox.setVgrow(scrollPane, Priority.ALWAYS);
 
         //create a scene and display
-        Scene scene = new Scene(welcomeScreen, 1200, 500);
+        Scene scene = new Scene(gameScreen, 1200, 500);
         stage.setTitle("Client: CS BS!");
         stage.setScene(scene);
         stage.show();
@@ -109,8 +109,9 @@ public class ClientJavaFX extends Application {
             // Create an output stream to send data to the server
             output = new DataOutputStream(socket.getOutputStream());
 
-            ServerJavaFX.clientList.add(this);
-            WaitScreen.players.setText( waitScreen.players.getText() + "new player");
+            //WelcomeScreen.clientList.add(this);
+            System.out.println("other list lenght: " + ServerJavaFX.connectionList.size());
+            //WaitScreen.players.setText( waitScreen.players.getText() + "new player");
             //create a thread in order to read message from server continuously
             TaskReadThread task = new TaskReadThread(socket, this);
             Thread thread = new Thread(task);
