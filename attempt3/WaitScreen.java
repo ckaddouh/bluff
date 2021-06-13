@@ -1,6 +1,9 @@
+package attempt3;
 
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileNotFoundException;
+
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -26,17 +29,17 @@ import javafx.scene.effect.Glow;
 // Create a class that extends BorderPane
 public class WaitScreen extends BorderPane {
 
-    private MainApp mainApp;
+    private Application mainApp;
     public static String file_name;
 
-    public WaitScreen(MainApp app) {
+    public WaitScreen(Application app) {
         super();
         this.mainApp = app;
 
         // Create a welcome label and format it
         Effect glow = new Glow(100.0);
         Label label = new Label();
-        label.setText(" Waitng while others join... ");
+        label.setText(" Waiting for others to join... ");
         label.setEffect(glow);
         label.setTextFill(Color.web("#ff0c94"));
         label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 48));
@@ -92,7 +95,10 @@ public class WaitScreen extends BorderPane {
     // Define methods to handle each button
 
     public void handleButtonStart() {
-        mainApp.showGameScreen();
+        if (mainApp instanceof ServerJavaFX)
+            ((ServerJavaFX)mainApp).showGameScreen();
+        else 
+            ((ClientJavaFX)mainApp).showGameScreen();
     }
 
     // public void handleButtonSettings() {

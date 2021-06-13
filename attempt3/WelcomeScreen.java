@@ -1,6 +1,11 @@
+package attempt3;
 
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.FileInputStream;
+
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,20 +24,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import videoAttempt.ClientApp;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 // Create a class that extends BorderPane
-public class WelcomeScreen extends BorderPane {
+public class WelcomeScreen extends WelcomeScreenClient {
 
-    private MainApp mainApp;
+    private Application mainApp;
     public static String file_name;
 
-    public WelcomeScreen(MainApp app) {
-        super();
-        this.mainApp = app;
+    public WelcomeScreen(Application app) {
+        super(app);
 
         // Create a welcome label and format it
         Effect glow = new Glow(100.0);
@@ -91,7 +96,8 @@ public class WelcomeScreen extends BorderPane {
         // Put these buttons into a GridPane at the bottom of the screen and set its
         // spacing
         GridPane bottom = new GridPane();
-        bottom.addRow(0, play, instructionButton);
+        bottom.addRow(0, play);
+        bottom.addColumn(48, instructionButton);
 
         bottom.setHgap(20);
         bottom.setVgap(10);
@@ -102,18 +108,39 @@ public class WelcomeScreen extends BorderPane {
         setBottom(bottom);
         bottom.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
+        // try {
+        //     Image image = new Image(new FileInputStream("all_players_line.jpg"));
+        //     ImageView imageView = new ImageView(image); 
+        //     imageView.setX(400); 
+        //     imageView.setY(10); 
+
+        //     imageView.setFitHeight(200); 
+        //     imageView.setFitWidth(40); 
+
+        //     imageView.setPreserveRatio(true); 
+        // } catch (FileNotFoundException e1) {
+        //     // TODO Auto-generated catch block
+        //     e1.printStackTrace();
+        // } 
+
+
+
+
     }
 
     // Define methods to handle each button
     private void handleInstructionButton() {
-        mainApp.showInstructionScreen();
+        if (mainApp instanceof ServerJavaFX)
+            ((ServerJavaFX)mainApp).showInstructionScreen();
+        else
+            ((ClientJavaFX)mainApp).showInstructionScreen();
     }
 
     public void handleButtonStart() {
-        mainApp.showWaitScreen();
+        if (mainApp instanceof ServerJavaFX) {
+            ((ServerJavaFX)mainApp).showWaitScreen();
+            ((ClientJavaFX)mainApp).showWaitScreen();
+        }
     }
 
-    // public void handleButtonSettings() {
-    // mainApp.showSettingsScreen();
-    // }
 }

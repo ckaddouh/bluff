@@ -1,44 +1,33 @@
+package videoAttempt;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatServerSocketListener  implements Runnable {
+import ClientConnectionData;
+import Message;
+import MessageStoC;
+
+public class ServerSocketListener  implements Runnable {
     private ClientConnectionData client;
     private List<ClientConnectionData> clientList;
 
-    public ChatServerSocketListener(ClientConnectionData client, List<ClientConnectionData> clientList) {
+    public ServerSocketListener(ClientConnectionData client, List<ClientConnectionData> clientList) {
         this.client = client;
         this.clientList = clientList;
     }
 
-    private void processChatMessage(MessageCtoS_Chat m) {
-        System.out.println("Chat received from " + client.getUserName() + " - broadcasting");
-        broadcast(new MessageStoC_Chat(client.getUserName(), m.msg), client);
-    }
-
-    private void processListRequest(MessageCtoS_ListRequest m) {
-        ArrayList<String> clients = new ArrayList<>();
-        for (ClientConnectionData c : clientList) {
-            clients.add(c.getUserName());
-        }
-        sendMessage((new MessageStoC_ListResponse(clients)), client);
-    }
-
-    private void processPrivateMessage(MessageCtoS_Private m) {
-        try {
-            sendMessage(new MessageStoC_Private(client.getUserName(), m.msg), clientList.get(m.idNum));
-        } catch (Exception ex) {
-            System.out.println("Client selected invalid user.");
-            sendMessage(new MessageStoC("Invalid user."), client);
-        }
-    }
+    // private void processButtonClick(MessageStoC m) {
+    //     System.out.println("Chat received from " + client.getUserName() + " - broadcasting");
+    //     broadcast(new MessageStoC("button clicked"), client);
+    // }
 
     /**
      * Broadcasts a message to all clients connected to the server.
      */
-    public void broadcast(Message m, ClientConnectionData skipClient) {
+    public void broadcast(MessageStoC m, ClientConnectionData skipClient) {
         try {
             System.out.println("broadcasting: " + m);
             for (ClientConnectionData c : clientList){
@@ -84,30 +73,19 @@ public class ChatServerSocketListener  implements Runnable {
         try {
             ObjectInputStream in = client.getInput();
 
-            MessageCtoS_Join joinMessage = (MessageCtoS_Join)in.readObject();
-            client.setUserName(joinMessage.userName);
-            broadcast(new MessageStoC_Welcome(joinMessage.userName), client);
+            //MessageCtoS_Join joinMessage = (MessageCtoS_Join)in.readObject();
+            client.setUserName("username");
+            broadcast(new MessageStoC("testing"), client);
             // Example: /dm_0\ hello! will send the user with ID 0 "hello!"
-            sendMessage(new MessageStoC("Type /dm_[userID]\\ [message] to send a private dm."), client);
-            String str = "Updated id list: ";
-            for (int i = 0; i < clientList.size(); i++) {
-                str = str + clientList.get(i).getUserName() + ": " + i + ", ";
-            }
-            broadcastFromServer(new MessageStoC(str));
-
+            
             while (true) {
-                Message msg = (Message) in.readObject();
-                if (msg instanceof MessageCtoS_Quit) {
-                    break;
-                }
-                else if (msg instanceof MessageCtoS_Chat) {
-                    processChatMessage((MessageCtoS_Chat) msg);
-                }
-                else if (msg instanceof MessageCtoS_ListRequest) {
-                    processListRequest((MessageCtoS_ListRequest) msg);
-                }
-                else if (msg instanceof MessageCtoS_Private) {
-                    processPrivateMessage((MessageCtoS_Private) msg);
+                Message msg = (Message) in.readObject(); // listen for button click
+                // if (msg instanceof MessageCtoS_Quit) {
+                //     break;
+                // }
+               
+               if (msg instanceof MessageStoC) {
+                    //processButtonClick((MessageStoC) msg);
                 }
                 else {
                     System.out.println("Unhandled message type: " + msg.getClass());
@@ -126,13 +104,7 @@ public class ChatServerSocketListener  implements Runnable {
             clientList.remove(client); 
 
             // Notify everyone that the user left.
-            broadcast(new MessageStoC_Exit(client.getUserName()), client);
-
-            String str = "Updated id list: ";
-            for (int i = 0; i < clientList.size(); i++) {
-                str = str + clientList.get(i).getUserName() + ": " + i + ", ";
-            }
-            broadcastFromServer(new MessageStoC(str));
+            //broadcast(new MessageStoC_Exit(client.getUserName()), client);
 
             try {
                 client.getSocket().close();

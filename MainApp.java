@@ -1,6 +1,10 @@
 // The main screen manager that creates and controls other screens
 
 import java.io.FileNotFoundException;
+
+import attempt3.InstructionScreen;
+import attempt3.WaitScreen;
+import attempt3.WelcomeScreen;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;

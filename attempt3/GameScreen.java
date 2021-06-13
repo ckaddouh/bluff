@@ -1,11 +1,11 @@
-package videoAttempt;
+package attempt3;
+
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import Card;
-import Hand;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -30,9 +30,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.layout.HBox;
 
 // Create a class that extends BorderPane
-public class GameScreenClient extends BorderPane {
+public class GameScreen extends BorderPane {
 
-    private ClientApp clientApp;
+    private Application clientApp;
     public static String file_name;
     public static int numPlayers;
     private ArrayList<Card> deck = new ArrayList<>();
@@ -49,7 +49,7 @@ public class GameScreenClient extends BorderPane {
     public static int winner = 0;
     public static Button BSButton;
 
-    public GameScreenClient(ClientApp app) throws FileNotFoundException {
+    public GameScreen(Application app) throws FileNotFoundException {
         super();
         this.clientApp = app;
         numPlayers = 4;
@@ -127,7 +127,7 @@ public class GameScreenClient extends BorderPane {
 
         
         BSButton = new Button("BS");
-        BSButton.setOnAction(e -> ClientApp.handleBSButton());
+        //BSButton.setOnAction(e -> ClientApp.handleBSButton());
         BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
         BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         

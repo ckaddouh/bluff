@@ -15,6 +15,7 @@ public class ChatServer {
     private static final ArrayList<ClientConnectionData> clientArrayList = new ArrayList<>();
     private static final List<ClientConnectionData> clientList = Collections.synchronizedList(clientArrayList);
 
+    private static int pNum = 0;
 
     public static void main(String[] args) throws Exception {
         ExecutorService pool = Executors.newFixedThreadPool(100);
@@ -35,7 +36,8 @@ public class ChatServer {
                     ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
                     String name = socket.getInetAddress().getHostName();
 
-                    ClientConnectionData client = new ClientConnectionData(socket, socketIn, socketOut, name);
+                    ClientConnectionData client = new ClientConnectionData(socket, socketIn, socketOut, name, pNum++);
+                    pNum %= 4;
                     clientList.add(client);
 
                     System.out.println("added client " + name);
@@ -49,6 +51,72 @@ public class ChatServer {
                     System.out.println(ex.getMessage());
                 }
 
+            }
+        }
+    }
+
+    class ClientHandler implements Runnable {
+        ClientConnectionData cd;
+
+        public ClientHandler(ClientConnectionData cd) {
+            this.cd = cd;
+        }
+
+        public void broadcast(String msg) {
+            try {
+                System.out.println("Broadcast -- " + msg);
+                for (ClientConnnectionData c: clientList) {
+                    c.getOut().println(msg);
+                }
+            }
+            catch (Exception ex) {
+                System.out.println("broadcast - caught exception: " + ex);
+                ex.printStackTrace();
+            }
+        }
+
+        public void run() {
+            try {
+                BufferedReader in = cd.getInput();
+                String userName = in.readLine().trim();
+                cd.setUserName(userName);
+                broadcast(String.format("WELCOME %s", cd.getUserName()));
+            
+                String incoming = "";
+
+                while (incoming = in.readLine() != null) {
+                    if (incoming.startsWith("CHAT")) {
+                        String chat = incoming.substring(4).trim();
+                            if (chat.length() > 0) {
+                                broadcast(String.format("CHAT %s %s", cd.getUserName(), chat));
+                            }
+                    }
+                    else if (incoming.startsWith("QUIT")) {
+                        break;
+                    }
+                }
+            }
+            catch (Exception e) {
+                if (e instanceof SocketException) {
+                   System.out.println("Caught socket ex for " + cd.getName()); 
+                }
+                else {
+                    System.out.println("caught exception: " + e);
+                    ex.printStackTrace();
+                }
+            }
+            finally {
+                clientList.remove(cd);
+
+                System.out.println(cd.getName() + " has left");
+                broadcast(String.format("EXIT %s", cd.getUserName()));
+
+                try {
+                    cd.getSocket().close();
+                }
+                catch (Exception ex) {
+
+                }
             }
         }
     }
