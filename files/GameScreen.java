@@ -1,4 +1,4 @@
-package attempt3;
+package files;
 
 // A welcome screen that has a play, instructions, and settings button
 import java.io.FileInputStream;
@@ -50,10 +50,10 @@ public class GameScreen extends BorderPane {
     protected int numPlayers;
     private int playerNum;
 
-    public GameScreen(Application app, int pNum) throws FileNotFoundException {
+    public GameScreen(Application app) throws FileNotFoundException {
         super();
         this.clientApp = app;
-        playerNum = pNum; //ServerJavaFX.connectionList.size();
+        playerNum = 1; //ServerJavaFX.connectionList.size();
         numPlayers = 4;
         hbox  = new HBox();
 
@@ -148,10 +148,10 @@ public class GameScreen extends BorderPane {
             final int INDEX = i;
             c.faceUp.setPickOnBounds(true);
             c.faceUp.setOnMouseClicked((MouseEvent e) -> {
-                //if (playerNum == playerTurn) {
+                if (playerNum == playerTurn) {
                     System.out.println("player " + playerNum + " selected a " + c.getValue() + " of " + c.getSuit());
                     removeIndexes.add(INDEX);
-                //}
+                }
             });
         }
     

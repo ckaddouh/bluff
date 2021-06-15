@@ -81,7 +81,7 @@ public class ServerJavaFX extends Application {
         endScreen = new EndScreen(this);
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(gameScreen, 1200, 500);
+        Scene scene = new Scene(welcomeScreen, 1200, 500);
         stage.setTitle("CS BS!"); // Set the stage title
         stage.setScene(scene); // Place the scene in the stage
         stage.show(); // Display the stage
