@@ -14,6 +14,8 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.layout.HBox;
 
 // Create a class that extends BorderPane
@@ -80,23 +83,26 @@ public class GameScreen extends BorderPane {
         
 
         // Create a welcome label and format it
-        Label label = new Label();
-        label.setText(" Game screen ");
-        label.setTextFill(Color.WHITE);
-        label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 48));
-        label.setStyle("text-decoration: underline overline; -fx-background-color: dodgerblue");
+        Text label = new Text();
+        label.setText("Game screen");
+        label.setFill(Color.web("ff0c94"));
+        label.setFont(Font.loadFont("file:PlayfairDisplay-Bold.ttf", 48));
+        
+
+        Effect glow = new Glow(100.0);
+        label.setEffect(glow);
 
         setTop(label);
         setAlignment(label, Pos.CENTER);
 
         // Set the background of the screen
-        setBackground( new Background( new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         // format thigns vertically
         GridPane.setValignment(label, VPos.CENTER);
 
         screen = new BorderPane();
         
-        FileInputStream imageStream = new FileInputStream("./cards/blue_back.png");
+        FileInputStream imageStream = new FileInputStream("./cards/custom_back.png");
         ImageView p = new ImageView(new Image(imageStream));
         p.setPickOnBounds(true);
         p.setOnMouseClicked((MouseEvent e) -> {
@@ -127,8 +133,8 @@ public class GameScreen extends BorderPane {
         BSButton = new Button("BS");
         //BSButton.setOnAction(e -> ClientApp.handleBSButton());
         BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        BSButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
-        
+        BSButton.setStyle(
+            "-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");        
 
         setCenter(screen);
       
