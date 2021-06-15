@@ -14,6 +14,7 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -123,18 +124,23 @@ public class GameScreen extends BorderPane {
         
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
-        hbox.setStyle("-fx-background-color: #336699;");
+        hbox.setStyle("-fx-background-color: #000000;");
         hbox.setPrefWidth(1200);
         hbox.setPrefHeight(130);
         setAlignment(hbox, Pos.CENTER);
         hbox.setAlignment(Pos.CENTER);
 
         
-        BSButton = new Button("BS");
-        //BSButton.setOnAction(e -> ClientApp.handleBSButton());
-        BSButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        Button BSButton = new Button("BS");
+        BSButton.setTextFill(Color.web("#ff0c94"));
+        BSButton.setOnAction(e -> handleBSButton());
+        DropShadow dropshadow = new DropShadow();
+        dropshadow.setColor(Color.web("#ff0c94"));
+        BSButton.setEffect(dropshadow);
+        BSButton.setStyle("-fx-background-color: #000000; ");
         BSButton.setStyle(
-            "-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");        
+                "-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
+ 
 
         setCenter(screen);
       
