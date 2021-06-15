@@ -34,51 +34,47 @@ public class GameScreen extends BorderPane {
 
     private Application clientApp;
     public static String file_name;
-    protected ArrayList<Card> deck = new ArrayList<>();
-    protected ArrayList<Hand> hands = new ArrayList<>();
+    public static ArrayList<Card> deck = new ArrayList<>();
+    private Hand hand;
     protected String[] suits = {"H", "D", "S", "C"};
     protected ArrayList<Card> pile = new ArrayList<>();
     protected int playerTurn = 0;
     protected int currentVal = 1;
     private Button sortButton;
     private BorderPane screen;
-    private HBox hbox = new HBox();
+    private HBox hbox;
     private int numCardsAdded = 0;
-    private ArrayList<ArrayList<Integer>> removeIndexes;
+    private ArrayList<Integer> removeIndexes;
     public static int winner = 0;
     public static Button BSButton;
     protected int numPlayers;
-    private int playerNum = 0;
+    private int playerNum;
 
-    public GameScreen(Application app) throws FileNotFoundException {
+    public GameScreen(Application app, int pNum) throws FileNotFoundException {
         super();
         this.clientApp = app;
+        playerNum = pNum; //ServerJavaFX.connectionList.size();
         numPlayers = 4;
+        hbox  = new HBox();
 
         for (int i = 1; i <= 13; i++) {
             for (int s = 0; s < 4; s++) {
                 deck.add(new Card(i, suits[s]));
             }
         }
-        for (int i = 0; i < numPlayers; i++) {
-            ArrayList<Card> temp = new ArrayList<Card>();
-            for (int j = 0; j < 52/numPlayers; j++) {
-                temp.add(deck.remove((int)(Math.random()*deck.size())));
-            }
-            hands.add(new Hand(temp));
+
+        ArrayList<Card> temp = new ArrayList<Card>();
+        for (int j = 0; j < 52/numPlayers; j++) {
+            temp.add(deck.remove((int)(Math.random()*deck.size())));
         }
-        for (int i = 0; i < deck.size(); i++) {
-            hands.get(numPlayers-1).getHand().add(deck.remove(i));
-        }
+        hand = new Hand(temp);
+        
 
         Card startingAce = new Card(1, "S");
-        for (int j = 0; j < hands.size(); j++) {
-            for (int i = 0; i < hands.get(j).getHand().size(); i++) {
-                if (hands.get(j).getHand().get(i).equals(startingAce)) {
-                    pile.add(hands.get(j).getHand().remove(i));
-                    currentVal++;
-                    playerTurn = (j+1) % numPlayers;
-                }
+        for (int j = 0; j < hand.getHand().size(); j++) {
+            if (hand.getHand().get(j).equals(startingAce)) {
+                pile.add(hand.getHand().remove(j));
+                currentVal++;
             }
         }
         
@@ -106,17 +102,18 @@ public class GameScreen extends BorderPane {
         p.setOnMouseClicked((MouseEvent e) -> {
             System.out.println("Turn over!"); // change functionality
             playerTurn = (playerTurn + 1) % numPlayers;   
-            handlePileClicked();         
+            handlePileClicked();       
+            System.out.println(playerTurn);  
         });
 
         p.setFitWidth(100);
         p.setFitHeight(100);
         screen.setCenter(p);
 
-        sortButton = new Button("Sort");
-        sortButton.setOnAction(e -> handleSortButton());
-        sortButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        sortButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
+        // sortButton = new Button("Sort");
+        // sortButton.setOnAction(e -> handleSortButton());
+        // sortButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
+        // sortButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
         
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
@@ -140,19 +137,21 @@ public class GameScreen extends BorderPane {
         screen.setBottom(hbox);        
 
  
-        removeIndexes = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < numPlayers; i++) {
-            removeIndexes.add(new ArrayList<Integer>());
-        }
-
+        removeIndexes = new ArrayList<Integer>();
+        
+        System.out.println("turn: " + playerTurn);
+        System.out.println("num: " + this.playerNum + "check\n");
+        
         System.out.println(playerTurn);
-        for (int i = 0; i < hands.get(0).getHand().size(); i++) {
-            Card c = hands.get(0).getHand().get(i);
+        for (int i = 0; i < hand.getHand().size(); i++) {
+            Card c = hand.getHand().get(i);
             final int INDEX = i;
             c.faceUp.setPickOnBounds(true);
             c.faceUp.setOnMouseClicked((MouseEvent e) -> {
-                System.out.println("before method");
-                removeIndexes.get(0).add(INDEX);
+                if (playerNum == playerTurn) {
+                    System.out.println("player " + playerNum + " selected a " + c.getValue() + " of " + c.getSuit());
+                    removeIndexes.add(INDEX);
+                }
             });
         }
     
@@ -164,17 +163,16 @@ public class GameScreen extends BorderPane {
     public void showHand() {
         hbox.getChildren().clear();
 
-
-        for (Card c : hands.get(0).getHand()) {
+        for (Card c : hand.getHand()) {
             hbox.getChildren().add(c.faceUp);
         }
     }
 
-    public void handleSortButton() {
-        hands.set(0, new Hand(hands.get(playerTurn).mergeSort(hands.get(playerTurn).getHand())));
-        showHand();
-        screen.setBottom(hbox);
-    }
+    // public void handleSortButton() {
+    //     hands.set(0, new Hand(hands.get(playerTurn).mergeSort(hands.get(playerTurn).getHand())));
+    //     showHand();
+    //     screen.setBottom(hbox);
+    // }
 
     public void handleBSButton() {
         System.out.println("testing");
@@ -186,20 +184,20 @@ public class GameScreen extends BorderPane {
         // }
     }
 
-    public void resizeHand() {
-        for (Card c : hands.get(playerTurn).getHand()) {
-            c.resize(1150/(hands.get(playerTurn).getHand().size() + 2), 100);
-        }
-    }
+    // public void resizeHand() {
+    //     for (Card c : hands.get(playerTurn).getHand()) {
+    //         c.resize(1150/(hands.get(playerTurn).getHand().size() + 2), 100);
+    //     }
+    // }
 
 
     public void handlePileClicked() {
-        Hand copy = new Hand(hands.get(0));
+        Hand copy = new Hand(hand);
         
-        for (int i = 0; i < removeIndexes.get(0).size(); i++) {
-            Card c = copy.getHand().get(removeIndexes.get(0).get(i));
+        for (int i = 0; i < removeIndexes.size(); i++) {
+            Card c = copy.getHand().get(removeIndexes.get(i));
             pile.add(c);
-            hands.get(0).getHand().remove(c);
+            hand.getHand().remove(c);
         }
         showHand();
         removeIndexes.clear();

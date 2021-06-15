@@ -38,16 +38,10 @@ public  class TaskClientConnection extends Application implements Runnable {
     private ClientJavaFX client;
 
 
+
     public TaskClientConnection(Socket socket, ServerJavaFX server) throws FileNotFoundException {
         this.socket = socket;
         this.server = server;
-
-        this.stage = stage;
-        welcomeScreen = new WelcomeScreenClient(this);
-        instructionScreen = new InstructionScreenClient(this);
-        waitScreen = new WaitScreenClient(this);
-        gameScreen = new GameScreen(this);
-        endScreen = new EndScreen(this);
 
     }
 

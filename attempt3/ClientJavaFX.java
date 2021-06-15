@@ -10,6 +10,8 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 /**
  *
@@ -58,12 +61,15 @@ public class ClientJavaFX extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
 
+      
         stage = primaryStage;
         welcomeScreen = new WelcomeScreenClient(this);
         instructionScreen = new InstructionScreenClient(this);
         waitScreen = new WaitScreen(this);
-        gameScreen = new GameScreen(this);
+        gameScreen = new GameScreen(this, ServerJavaFX.x);
+        ServerJavaFX.x += 1;
         endScreen = new EndScreen(this);
+
         //pane to hold scroll pane and HBox
         //  VBox vBox = new VBox();
 
@@ -103,6 +109,9 @@ public class ClientJavaFX extends Application {
             // Create a socket to connect to the server
             Socket socket = new Socket(ConnectionUtil.host, ConnectionUtil.port);
 
+            // ServerJavaFX.clientList.add(this);
+            // System.out.println(ServerJavaFX.clientList.toString());
+    
             //Connection successful
             //txtAreaDisplay.appendText("Connected. \n");
           

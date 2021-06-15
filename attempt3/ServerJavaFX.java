@@ -35,12 +35,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 
 public class ServerJavaFX extends Application {
     public TextArea txtAreaDisplay;
-    public static List<TaskClientConnection> connectionList = new ArrayList<TaskClientConnection>();
-    //public static List<Application> clientList = new ArrayList<>();
+    public static ArrayList<TaskClientConnection> connectionList = new ArrayList<TaskClientConnection>();
+
     public static String file_name;
     public static int numPlayers;
     private ArrayList<Card> deck = new ArrayList<>();
@@ -64,13 +66,18 @@ public class ServerJavaFX extends Application {
     private GameScreen gameScreen;
     private EndScreen endScreen;
 
+    public static volatile int x = 1;
+    
+    public static ArrayList<ClientJavaFX> clientList = new ArrayList<>();
+
+
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) throws FileNotFoundException {
         stage = primaryStage;
         welcomeScreen = new WelcomeScreen(this);
         instructionScreen = new InstructionScreen(this);
         waitScreen = new WaitScreen(this);
-        gameScreen = new GameScreen(this);
+        gameScreen = new GameScreen(this, 0);
         endScreen = new EndScreen(this);
 
         // Create a scene and place it in the stage
@@ -92,9 +99,9 @@ public class ServerJavaFX extends Application {
                 while (true) {
                     // Listen for a connection request, add new connection to the list
                     Socket socket = serverSocket.accept();
+                    System.out.println("clientList: " + clientList.toString());
                     TaskClientConnection connection = new TaskClientConnection(socket, this);
                     connectionList.add(connection);
-
                     // create a new thread
                     Thread thread = new Thread(connection);
                     thread.start();
@@ -107,6 +114,7 @@ public class ServerJavaFX extends Application {
         }).start();
 
     }
+
 
     public void showWelcomeScreen() {
         Scene scene = stage.getScene();
