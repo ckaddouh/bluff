@@ -117,11 +117,18 @@ public class GameScreen extends BorderPane {
         p.setFitHeight(125);
         screen.setCenter(p);
 
-        // sortButton = new Button("Sort");
-        // sortButton.setOnAction(e -> handleSortButton());
-        // sortButton.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5, 0.0, 0, 1)");
-        // sortButton.setStyle("-fx-font: 22 fantasy; -fx-background-color: #0072ab, linear-gradient(#2a5880 0%, #1f2429 20%, #191d22 100%), linear-gradient(#007be0, #3275c7), radial-gradient(center 50% 0%, radius 100%, #64a5f5, #9ddbfa)");
-        
+        Button endButton = new Button("END");
+        endButton.setTextFill(Color.web("#ea9dff"));
+        endButton.setOnAction(e -> handleEndButton());
+        DropShadow drop = new DropShadow();
+        drop.setColor(Color.web("#ea9dff"));
+        endButton.setEffect(drop);
+        // play.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 5,
+        // 0.0, 0, 1)");
+        endButton.setStyle(
+                "-fx-font: 22 serif; -fx-background-color: #000000, linear-gradient(#000000 0%, #000000 20%, #000000 100%), linear-gradient(#000000, #000000), radial-gradient(center 50% 0%, radius 100%, #000000, #000000)");
+
+       
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
         hbox.setStyle("-fx-background-color: #000000;");
@@ -186,6 +193,9 @@ public class GameScreen extends BorderPane {
     //     screen.setBottom(hbox);
     // }
 
+    public void handleEndButton(){
+        ((ServerJavaFX) clientApp).showEndScreen();
+    }
     public void handleBSButton() {
         System.out.println("testing");
         // for (int i = 0; i < numCardsAdded; i++) {
