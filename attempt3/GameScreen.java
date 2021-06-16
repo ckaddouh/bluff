@@ -114,7 +114,7 @@ public class GameScreen extends BorderPane {
         });
 
         p.setFitWidth(100);
-        p.setFitHeight(100);
+        p.setFitHeight(125);
         screen.setCenter(p);
 
         // sortButton = new Button("Sort");

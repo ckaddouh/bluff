@@ -38,8 +38,9 @@ public class WelcomeScreen extends WelcomeScreenClient {
     public static String file_name;
     //public static List<Application> clientList = new ArrayList<>();
     
-    public WelcomeScreen(Application app) {
+    public WelcomeScreen(Application app) throws FileNotFoundException {
         super(app);
+        GridPane gridpane = new GridPane();
 
         // Create a welcome label and format it
         Effect glow = new Glow(100.0);
@@ -57,8 +58,16 @@ public class WelcomeScreen extends WelcomeScreenClient {
         // Set the background of the screen
         setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         // format thigns vertically
-        GridPane.setValignment(label, VPos.CENTER);
+        gridpane.setValignment(label, VPos.CENTER);
 
+        FileInputStream imageStream = new FileInputStream("all_players_line.jpg");
+        ImageView p = new ImageView(new Image(imageStream));
+        p.setPickOnBounds(true);
+
+        p.setFitWidth(966);
+        p.setFitHeight(185);
+        gridpane.getChildren().add(p);
+        
         // Create an instructions button and format it
         Button instructionButton = new Button("Instructions");
         instructionButton.setTextFill(Color.web("#dcfc5c"));
